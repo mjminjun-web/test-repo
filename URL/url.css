@@ -1,0 +1,286 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #d3d3d3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.item-content {
+    position: relative;
+    text-align: left;
+    border: 4px solid #808080;
+    padding: 40px;
+    border-radius: 5px;
+    background-color: #e8e8e8;
+    width: 480px;
+}
+
+.item-content h2 {
+    margin-top: 0;
+    font-size: 32px;
+    color: #404040;
+    font-weight: normal;
+}
+
+.item-content label {
+    display: block;
+    margin: 20px 0 12px 0;
+    font-size: 20px;
+    color: #505050;
+    text-align: left;
+}
+
+.item-content input {
+    width: 100%;
+    padding: 12px;
+    font-size: 20px;
+    border: 3px solid #999;
+    border-radius: 3px;
+    background-color: #f5f5f5;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.item-content input::placeholder {
+    color: #aaa;
+}
+
+.item-content button {
+    margin-top: 20px;
+    padding: 15px 45px;
+    background-color: #999;
+    color: #fff;
+    border: 3px solid #777;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.item-content button:hover {
+    background-color: #888;
+}
+
+.hover-overlay {
+    margin-top: 18px;
+    color: #666;
+    font-size: 16px;
+}
+
+.feedback-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 18px;
+    border: 2px solid #999;
+}
+
+.feedback-message.error {
+    background-color: #ddd;
+    color: #555;
+}
+
+.feedback-message.warning {
+    background-color: #e0e0e0;
+    color: #555;
+}
+
+.feedback-message.hidden {
+    display: none;
+}
+
+.mistake-counter {
+    margin-top: 20px;
+    padding: 18px;
+    background-color: #d8d8d8;
+    border: 3px solid #999;
+    border-radius: 5px;
+    min-height: 75px;
+}
+
+.mistake-list {
+    text-align: left;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.mistake-list div {
+    margin: 9px 0;
+    padding: 6px;
+    background-color: #ccc;
+    border-left: 4px solid #888;
+}
+
+.bottom-left-description {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  color: #5e6c84;
+  font-size: 0.8rem;
+}
+
+.bottom-left-description p {
+  margin: 0.25rem 0;
+}
+
+.bottom-left-description strong {
+  color: #42526e;
+}
+
+
+.hint-button:hover {
+  background-color: #777;
+}
+
+.item-content {
+  position: relative; /* Add this to your existing .item-content */
+}
+
+.hint-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #999;
+  color: white;
+  border: 2px solid #777;
+  font-size: 5px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hint-button:hover {
+  background-color: #777;
+}
+
+.hint-button:hover {
+  background-color: #777;
+}
+
+.hint-popup {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  background-color: #fff;
+  border: 2px solid #999;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  width: 150px;
+  display: none;
+  z-index: 100;
+}
+
+.hint-popup.show {
+  display: block;
+}
+
+.hidden-home {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #5e6c84;
+  font-size: 5px;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.hidden-home:hover {
+  color: #42526e;
+  text-decoration: underline;
+}
+
+@media print {
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 0.75in;
+  }
+
+  /* Hide everything first */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Hide all UI elements */
+  button, .hint-button, .hover-overlay, .feedback-message,
+  .bottom-left-description, .hidden-home, input, label,
+  #font-chaos-overlay, h2 {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Show only the content container */
+  .item-content, .item-content * {
+    visibility: visible;
+  }
+
+  .item-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    background: white;
+    padding: 0;
+  }
+
+  /* Add Users' Catalog title */
+  .item-content::before {
+    content: "Users' Catalog";
+    display: block;
+    visibility: visible;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #333;
+    color: #000;
+  }
+
+  /* Style the mistake counter */
+  .mistake-counter {
+    display: block !important;
+    visibility: visible;
+    page-break-inside: avoid;
+    background: white;
+    border: 2px solid #666;
+    padding: 20px;
+  }
+
+  .mistake-counter::before {
+    content: "Error Log - All Pages";
+    display: block;
+    visibility: visible;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #999;
+    color: #000;
+  }
+
+  /* Style error entries */
+  .mistake-list div {
+    visibility: visible;
+    background: #f9f9f9;
+    border-left: 4px solid #c00;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    page-break-inside: avoid;
+  }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkbox Input</title>
+  <link rel="stylesheet" href="checkbox.css">
+</head>
+<body>
+
+  <div class="item-content">
+    <div class="bottom-left-description">
+      <p>Checkbox Input by Minjun Byun</p>
+      <p>Size 568px x 603.96px</p>
+      <p>2025/11/19</p>
+      <p><strong>MJ Publication</strong></p>
+    </div>
+
+    <a href="../Home page/index.html" class="hidden-home">home</a>
+
+    <h2>Checkbox Input</h2>
+    <label>Select your pizza toppings Options:</label>
+
+    <div class="checkbox-group">
+      <div class="checkbox-item">
+        <input type="checkbox" id="option1" name="option1">
+        <label for="option1">Lentils</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option2" name="option2">
+        <label for="option2">Kimchi</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option2" name="option2">
+        <label for="option2">Watermelon</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option2" name="option2">
+        <label for="option2">Beer</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option2" name="option2">
+        <label for="option2">Mint</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option3" name="option3">
+        <label for="option3">Chicken</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option2" name="option2">
+        <label for="option2">Orange</label>
+      </div>
+      <div class="checkbox-item">
+        <input type="checkbox" id="option2" name="option2">
+        <label for="option2">Olive Oil</label>
+      </div>
+    </div>
+
+    <button>Next</button>
+
+    <button class="hint-button" id="hint-button">hint</button>
+
+    <div class="hover-overlay">
+      <p>Select multiple options <span id="try-text">TRY IF YOU CAN</span></p>
+    </div>
+
+    <div id="feedback" class="feedback-message hidden"></div>
+
+    <div class="mistake-counter">
+      <div id="mistake-list" class="mistake-list"></div>
+    </div>
+  </div>
+
+  <script src="../shared-exit-tracking.js"></script>
+  <script src="checkbox.js"></script>
+</body>
+</html>

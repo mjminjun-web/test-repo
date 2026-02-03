@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Picker</title>
+  <link rel="stylesheet" href="colorpicker.css">
+</head>
+<body>
+
+  <div class="item-content">
+    <div class="bottom-left-description">
+      <p>Color Picker by Minjun Byun</p>
+      <p>Size 375px x 450px</p>
+      <p>2025/12/04</p>
+      <p><strong>MJ Publication</strong></p>
+    </div>
+
+    <a href="../Home page/index.html" class="hidden-home">home</a>
+
+    <h2>Select Exact Color</h2>
+    <label for="color-input">Target Color: <strong id="target-hex">LOADING...</strong></label>
+
+    <div class="target-color-box" id="preview-box">LOCKED</div>
+
+    <input type="color" id="color-input" value="#000000">
+
+    <button id="submit-btn">Next</button>
+
+    <button class="hint-button" id="hint-button">hint</button>
+
+    <div class="hover-overlay">
+      <p>Match the exact hex color code</p>
+    </div>
+
+    <div id="feedback" class="feedback-message hidden"></div>
+
+    <div class="mistake-counter">
+      <div id="mistake-list" class="mistake-list"></div>
+    </div>
+  </div>
+
+  <script src="../shared-exit-tracking.js"></script>
+  <script src="colorpicker.js"></script>
+</body>
+</html>

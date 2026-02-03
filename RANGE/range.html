@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Range Slider</title>
+    <link rel="stylesheet" href="range.css">
+</head>
+<body>
+ 
+  <div class="item-content">
+    <div class="bottom-left-description">
+      <p>Range Slider by Minjun Byun</p>
+      <p>Size 568px x 568.36px</p>
+      <p>2025/11/23</p>
+      <p><strong>MJ Publication</strong></p>
+    </div>
+    
+    <a href="../Home page/index.html" class="hidden-home">home</a>
+    
+    <h2>Guess the Number</h2>
+    <label for="range-slider">Number:</label>
+    <div class="slider-container">
+      <div class="slider-value" id="slider-value">50.00</div>
+      <input type="range" id="range-slider" name="range-slider" min="0" max="100" value="50" step="0.01">
+    </div>
+    <button id="submit-btn">Next</button>
+
+    <button class="hint-button" id="hint-button">hint</button>
+
+    <div class="hover-overlay">
+      <p>Adjust value with slider</p>
+    </div>
+    
+    <div id="feedback" class="feedback-message hidden"></div>
+
+    <div class="mistake-counter">
+      <div class="mistake-list"></div>
+    </div>
+
+  </div>
+
+<script src="../shared-exit-tracking.js"></script>
+<script src="range.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Input - Bad Design</title>
+    <link rel="stylesheet" href="url.css">
+</head>
+<body>
+ 
+  <div class="item-content">
+    <div class="bottom-left-description">
+      <p>URL Input by Minjun Byun</p>
+      <p>Size 568px x 490.76px</p>
+      <p>2025/11/19</p>
+      <p><strong>MJ Publication</strong></p>
+    </div>
+   
+    <a href="/Home page/index.html" class="hidden-home">home</a>
+    
+    <h2>URL Input</h2>
+    <label for="url">Enter URL:</label>
+    <input type="url" id="url" name="url" placeholder="Enter URL" autocomplete="off">
+    <button>Next</button>
+    
+    <button class="hint-button" id="hint-button">hint</button>
+
+    <div class="hover-overlay">
+      <p>Enter and validate website URL</p>
+    </div>
+    
+    <div id="feedback" class="feedback-message hidden"></div>
+    
+    <div class="mistake-counter">
+      <div id="mistake-list" class="mistake-list"></div>
+    </div>
+  </div>
+
+<script src="../shared-exit-tracking.js"></script>
+<script src="url.js"></script>
+
+</body>
+</html>

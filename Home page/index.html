@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>You Thought</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/Home page/style.css" />
+  </head>
+  <body onload="generate()">
+    <div class="container">
+      <!-- Main Content with 3x3 Grid -->
+      <main class="main-content">
+        <h1>Inputs are Wild</h1>
+
+        <section>
+          <!-- 1. URL Input -->
+          <a href="../URL/url.html" class="grid-item">
+            <div class="item-content">
+              <h2>URL Input</h2>
+              <label for="url">Enter URL:</label>
+              <input type="url" id="url" name="url" placeholder="Enter URL" />
+              <button>Click</button>
+            </div>
+            <div class="hover-overlay">
+              <p>Enter and validate website URLs</p>
+            </div>
+          </a>
+
+          <!-- 2. Password Input -->
+          <a href="../PASSWORD /password.html" class="grid-item">
+            <div class="item-content">
+              <h2>Password Input</h2>
+              <label for="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+              />
+            </div>
+            <div class="hover-overlay">
+              <p>Secure login with email and password</p>
+            </div>
+          </a>
+
+          <!-- 3. Checkbox -->
+          <a href="../CHECKBOX/checkbox.html" class="grid-item">
+            <div class="item-content">
+              <h2>Checkbox for Pizza topping</h2>
+              <input type="checkbox" id="Kimchi" name="Kimchi" />
+              <label for="Kimchi">Kimchi</label><br />
+              <input type="checkbox" id="pizza" name="pizza" checked />
+              <label for="pizza">Beer</label><br />
+              <input type="checkbox" id="Chicken" name="Chicken" />
+              <label for="Chicken">Chicken</label><br />
+              <input type="checkbox" id="Hamburger" name="Hamburger" />
+              <label for="Hamburger">Orange</label><br />
+              <input type="checkbox" id="Pasta" name="Pasta" />
+              <label for="Pasta">Mint</label>
+            </div>
+            <div class="hover-overlay">
+              <p>Select multiple food options</p>
+            </div>
+          </a>
+
+          <!-- 4. Range Slider -->
+          <a href="../RANGE/range.html" class="grid-item">
+            <div class="item-content">
+              <h2>Range Slider</h2>
+              <label for="range1">Volume:</label>
+              <input
+                type="range"
+                id="range1"
+                name="range1"
+                min="0"
+                max="100"
+                value="50"
+              />
+            </div>
+            <div class="hover-overlay">
+              <p>Adjust value with slider</p>
+            </div>
+          </a>
+
+          <!-- 5. Color Picker -->
+          <a href="../Color Picker/colorpicker.html" class="grid-item">
+            <div class="item-content">
+              <h2>Color Picker</h2>
+              <label for="color">Choose a color:</label>
+              <input type="color" id="color" name="color" value="#3498db" />
+            </div>
+            <div class="hover-overlay">
+              <p>Pick your favorite color</p>
+            </div>
+          </a>
+
+          <!-- 7. Date Picker -->
+          <a href="../DATEPICKER/datepicker.html" class="grid-item">
+            <div class="item-content">
+              <h2>Best Date for Web To Print</h2>
+              <label for="date">Select Date:</label>
+              <input type="date" id="date" name="date" value="2019-06-17" />
+            </div>
+            <div class="hover-overlay">
+              <p>Choose a date from calendar</p>
+            </div>
+          </a>
+
+          <!-- 8. File Upload -->
+          <a href="../FILE/file.html" class="grid-item">
+            <div class="item-content">
+              <h2>File Input</h2>
+              <label for="file">Choose file:</label>
+              <input type="file" id="file" name="file" />
+            </div>
+            <div class="hover-overlay">
+              <p>Upload files from your device</p>
+            </div>
+          </a>
+
+          <!-- 8. CAPTCHA (Identify Input) -->
+          <a href="../CAPTCHA/captcha.html" class="grid-item">
+            <div class="item-content">
+              <h2>CAPTCHA</h2>
+              <canvas
+                id="captcha-canvas"
+                width="200"
+                height="60"
+                style="
+                  border: 2px solid #999;
+                  background: #f5f5f5;
+                  display: block;
+                  margin: 10px auto;
+                "
+              ></canvas>
+              <input
+                type="text"
+                id="captcha-home"
+                name="captcha-home"
+                placeholder="Enter CAPTCHA"
+                style="margin-top: 10px"
+              />
+            </div>
+            <div class="hover-overlay">
+              <p>Verify you're human with CAPTCHA</p>
+            </div>
+          </a>
+
+          <!-- 10. Print Button -->
+          <div class="grid-item">
+            <div class="item-content">
+              <h2>Print Errors</h2>
+              <button onclick="window.print()" class="print-button">
+                Print
+              </button>
+            </div>
+            <div class="item-content">
+              <button onclick="showAboutPopup()" class="About">About</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- About Popup Modal -->
+    <div id="aboutModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeAboutPopup()">&times;</span>
+
+        <div class="modal-body">
+          <!-- Form-style layout -->
+          <div class="input-group">
+            <label for="about-title">Title:</label>
+            <input
+              type="text"
+              id="about-title"
+              value="About HTML Inputs"
+              readonly
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="description">Description:</label>
+            <textarea id="description" readonly>
+HTML inputs are the building blocks of web forms and user interactions. This project demonstrates various input types and their unique characteristics.</textarea
+            >
+          </div>
+
+          <div class="input-group">
+            <label>Text & Security Inputs:</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="url" checked disabled />
+              <label for="url">URL Input</label>
+              <input type="checkbox" id="password" checked disabled />
+              <label for="password">Password Input</label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Selection Inputs:</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="checkbox" checked disabled />
+              <label for="checkbox">Checkbox</label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Interactive Inputs:</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="color" checked disabled />
+              <label for="color">Color Picker</label>
+              <input type="checkbox" id="range" checked disabled />
+              <label for="range">Range Slider</label>
+              <input type="checkbox" id="date" checked disabled />
+              <label for="date">Date Picker</label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Advanced Inputs:</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="file" checked disabled />
+              <label for="file">File Upload</label>
+              <input type="checkbox" id="captcha" checked disabled />
+              <label for="captcha">CAPTCHA</label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="note">Note:</label>
+            <input
+              type="text"
+              id="note"
+              value="Each input type serves a unique purpose in web development"
+              readonly
+            />
+          </div>
+
+          <div class="input-group">
+            <button
+              type="button"
+              class="modal-button"
+              onclick="closeAboutPopup()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/Home page/function.js"></script>
+  </body>
+</html>

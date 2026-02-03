@@ -1,0 +1,869 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page style */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f8f8f8;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Main box */
+.container {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  border: none;
+  box-shadow: none;
+}
+
+/* Left menu */
+nav {
+  width: 220px;
+  background: #3a3a3a;
+  padding: 0;
+  border-right: none;
+}
+
+.nav-header {
+  padding: 20px 20px;
+  border-bottom: 1px solid #4a4a4a;
+}
+
+.nav-header h2 {
+  font-size: 16px;
+  letter-spacing: 0px;
+  font-weight: normal;
+  color: white;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  margin: 0;
+  border-bottom: none;
+}
+
+nav a {
+  display: block;
+  padding: 15px 20px;
+  color: #cccccc;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  letter-spacing: 0px;
+  font-weight: normal;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+nav a:hover {
+  background: #e0e0e0;
+}
+
+nav a.active {
+  background: #4a4a4a;
+  color: white;
+  font-weight: normal;
+}
+
+/* Main area */
+.main-content {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.main-content h1 {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgb(160, 158, 158);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.print-button {
+  padding: 18px 52px !important;
+  margin-bottom: 24px !important;
+  background: #28a745 !important;
+  color: #ffffff !important;
+  border: 2px solid #010903 !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 28px !important;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.print-button:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+/* Grid layout - 3 columns */
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  flex: 1;
+  overflow: visible;
+  padding-top: 10px;
+}
+
+/* Each box in grid */
+.grid-item {
+  background: whitesmoke;
+  padding: 15px;
+  border: 2px solid gray;
+  min-height: 0;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: block;
+  text-decoration: none !important;
+}
+
+.grid-item,
+.grid-item h2,
+.grid-item label,
+.grid-item p {
+  color: #333 !important;
+}
+
+.grid-item:visited,
+.grid-item:link {
+  color: #333 !important;
+  text-decoration: none !important;
+}
+
+.grid-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(208, 207, 207, 0.3);
+}
+
+/* Content wrapper */
+.grid-item .item-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover overlay - hidden by default */
+.grid-item .hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(192, 192, 192, 0.85); /*it's the color of hover */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Show overlay on hover */
+.grid-item:hover .hover-overlay {
+  opacity: 1;
+}
+
+.grid-item .hover-overlay p {
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  font-weight: normal;
+  color: white;
+}
+
+.grid-item h2 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* All inputs */
+.grid-item input,
+.grid-item textarea {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid black;
+  background: white;
+  font-size: 13px;
+  margin: 3px 0;
+}
+
+.grid-item textarea {
+  min-height: 60px;
+}
+
+/* Checkbox and radio */
+.grid-item input[type="checkbox"],
+.grid-item input[type="radio"] {
+  width: auto;
+  margin: 5px;
+}
+
+/* Color picker */
+.grid-item input[type="color"] {
+  height: 35px;
+  cursor: pointer;
+}
+
+/* Buttons */
+.grid-item button,
+.grid-item input[type="submit"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  background: rgb(211, 211, 211);
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.grid-item button:hover,
+.grid-item input[type="submit"]:hover {
+  background: #ccc;
+}
+
+/* CAPTCHA styles */
+.grid-item .inline {
+  display: inline-block;
+  margin: 5px;
+}
+
+.grid-item #user-input input {
+  width: auto;
+  min-width: 120px;
+}
+
+.grid-item #image {
+  min-width: 100px;
+  min-height: 40px;
+  background: lightgray;
+  padding: 5px 10px;
+  border: 1px solid black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 3px;
+}
+
+.grid-item .fa-sync {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.grid-item #key {
+  margin-top: 10px;
+  padding: 8px;
+  background: lightyellow;
+  border: 1px solid gray;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .grid-item {
+    padding: 12px;
+  }
+
+  .grid-item h2 {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .grid-item label {
+    font-size: 12px;
+  }
+
+  .grid-item input,
+  .grid-item textarea {
+    padding: 5px;
+    font-size: 12px;
+    margin: 2px 0;
+  }
+
+  .grid-item input[type="checkbox"],
+  .grid-item input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: 4px;
+  }
+
+  .grid-item input[type="color"] {
+    height: 30px;
+  }
+
+  .grid-item button,
+  .grid-item input[type="submit"] {
+    padding: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .grid-item .inline {
+    margin: 3px;
+  }
+
+  .grid-item #image {
+    min-width: 80px;
+    min-height: 30px;
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .grid-item .fa-sync {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  section {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .main-content h1 {
+    font-size: 20px;
+  }
+
+  .grid-item {
+    padding: 10px;
+  }
+
+  .grid-item h2 {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .grid-item label {
+    font-size: 11px;
+  }
+
+  .grid-item input,
+  .grid-item textarea {
+    padding: 4px;
+    font-size: 11px;
+  }
+
+  .grid-item input[type="checkbox"],
+  .grid-item input[type="radio"] {
+    width: 12px;
+    height: 12px;
+    margin: 3px;
+  }
+
+  .grid-item input[type="color"] {
+    height: 25px;
+  }
+
+  .grid-item button,
+  .grid-item input[type="submit"] {
+    padding: 5px;
+    font-size: 11px;
+  }
+
+  .grid-item #image {
+    min-width: 70px;
+    min-height: 25px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  nav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid black;
+  }
+
+  section {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .main-content h1 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  .grid-item {
+    padding: 8px;
+  }
+
+  .grid-item h2 {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .grid-item label {
+    font-size: 10px;
+  }
+
+  .grid-item input,
+  .grid-item textarea {
+    padding: 3px;
+    font-size: 10px;
+    margin: 2px 0;
+  }
+
+  .grid-item input[type="checkbox"],
+  .grid-item input[type="radio"] {
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+  }
+
+  .grid-item input[type="color"] {
+    height: 20px;
+  }
+
+  .grid-item button,
+  .grid-item input[type="submit"] {
+    padding: 4px;
+    font-size: 10px;
+    margin-top: 3px;
+  }
+
+  .print-button {
+    padding: 8px 16px;
+    font-size: 11px;
+  }
+
+  .about-button {
+    padding: 8px 16px;
+    font-size: 11px;
+  }
+
+  .grid-item .inline {
+    margin: 2px;
+  }
+
+  .grid-item #user-input input {
+    min-width: 80px;
+  }
+
+  .grid-item #image {
+    min-width: 60px;
+    min-height: 20px;
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .grid-item .fa-sync {
+    font-size: 12px;
+  }
+
+  .grid-item #key {
+    font-size: 9px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .main-content h1 {
+    font-size: 16px;
+  }
+
+  .grid-item {
+    padding: 10px;
+  }
+
+  .grid-item h2 {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .grid-item label {
+    font-size: 12px;
+  }
+
+  .grid-item input,
+  .grid-item textarea {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .grid-item input[type="checkbox"],
+  .grid-item input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin: 4px;
+  }
+
+  .grid-item input[type="color"] {
+    height: 30px;
+  }
+
+  .grid-item button,
+  .grid-item input[type="submit"] {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .print-button {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+
+  .grid-item #image {
+    min-width: 80px;
+    min-height: 30px;
+    font-size: 14px;
+  }
+
+  .grid-item .fa-sync {
+    font-size: 14px;
+  }
+}
+
+/* ========================================
+   MODAL POPUP STYLES - INPUT UI STYLE
+   ======================================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 5% auto;
+  padding: 30px;
+  border: 2px solid black;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  color: #666;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+}
+
+.close:hover {
+  color: #000;
+}
+
+.modal-body {
+  padding: 10px 0;
+}
+
+/* Input group - standard form layout */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.input-group input[type="text"],
+.input-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid black;
+  background: white;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.input-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.input-group input[readonly],
+.input-group textarea[readonly] {
+  background-color: #f5f5f5;
+  cursor: default;
+}
+
+/* Checkbox group - inline checkboxes */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px;
+  border: 1px solid black;
+  background: white;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"]:disabled {
+  cursor: default;
+}
+
+.checkbox-group label {
+  display: inline;
+  font-weight: normal;
+  margin: 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"]:disabled + label {
+  cursor: default;
+  color: #666;
+}
+
+/* Modal button - standard submit button style */
+.modal-button {
+  width: 100%;
+  padding: 10px;
+  background: rgb(211, 211, 211);
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.modal-button:hover {
+  background: #ccc;
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+    padding: 20px;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  .checkbox-group {
+    gap: 10px;
+  }
+}
+
+/* ========================================
+   PRINT STYLES - Users' Catalog Layout
+   ======================================== */
+@media print {
+  /* Reset page margins and setup */
+  @page {
+    size: letter;
+    margin: 0.75in;
+  }
+
+  /* Hide all on-screen UI elements */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Hide navigation, buttons, overlays */
+  nav,
+  .nav-header,
+  .grid-item .hover-overlay,
+  .grid-item button,
+  .print-button,
+  .grid-item input,
+  .grid-item textarea,
+  .grid-item label,
+  .grid-item #captcha-canvas,
+  .grid-item #image,
+  .grid-item .fa-sync,
+  .main-content h1,
+  .item-content h2 {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Create print container */
+  body::before {
+    content: "Users' Catalog";
+    display: block;
+    visibility: visible;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #333;
+    color: #000;
+  }
+
+  /* Show and style the main container */
+  .container,
+  .main-content,
+  section {
+    visibility: visible;
+    display: block !important;
+    width: 100%;
+    background: white;
+    position: static;
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Create catalog entry layout */
+  .grid-item {
+    visibility: visible;
+    display: block !important;
+    page-break-inside: avoid;
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 2px solid #666;
+    background: #f9f9f9;
+    box-shadow: none;
+    position: relative;
+  }
+
+  /* Add catalog entry number and title */
+  .grid-item::before {
+    content: "Entry #" counter(catalog-entry);
+    counter-increment: catalog-entry;
+    display: block;
+    visibility: visible;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #999;
+  }
+
+  /* Show item content */
+  .grid-item .item-content {
+    visibility: visible;
+    display: block;
+    position: static;
+  }
+
+  /* Ensure error log container and its content are visible */
+  .grid-item:last-child .item-content,
+  .grid-item:last-child .item-content * {
+    visibility: visible !important;
+  }
+
+  .error-log-container,
+  .error-log-container * {
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  /* Initialize counter */
+  section {
+    counter-reset: catalog-entry;
+  }
+
+  /* Page header on every page */
+  @page {
+    @top-center {
+      content: "Users' Catalog - Browser Characteristics Study";
+      font-size: 12px;
+      color: #666;
+    }
+  }
+
+  /* Page numbers */
+  body::after {
+    content: "Page " counter(page);
+    display: block;
+    visibility: visible;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 10px;
+    color: #666;
+  }
+
+  /* Avoid page breaks inside entries */
+  .grid-item {
+    page-break-before: auto;
+    page-break-after: auto;
+    page-break-inside: avoid;
+  }
+
+  /* Error log section styling */
+  .grid-item:last-child {
+    border: 3px solid #c00;
+    background: #fff5f5;
+  }
+
+  .grid-item:last-child::before {
+    content: "Error Log Summary";
+    color: #c00;
+    font-size: 18px;
+  }
+
+  /* Make sure error log container is visible */
+  .error-log-container {
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  .error-log-container div {
+    visibility: visible !important;
+    display: block !important;
+  }
+}

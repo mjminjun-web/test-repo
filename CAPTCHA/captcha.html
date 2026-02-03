@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAPTCHA - Identify Input</title>
+  <link rel="stylesheet" href="captcha.css">
+</head>
+<body>
+
+  <div class="item-content">
+    <div class="bottom-left-description">
+      <p>CAPTCHA by Minjun Byun</p>
+      <p>Size 480px x 520px</p>
+      <p>2025/12/08</p>
+      <p><strong>MJ Publication</strong></p>
+    </div>
+
+    <a href="../Home page/index.html" class="hidden-home">home</a>
+
+    <h2>Identify the Input Type</h2>
+    <p class="instruction">Click on an image, then type which input it is</p>
+
+    <div id="captcha-images"></div>
+
+    <input type="text" id="captcha-input" placeholder="Type the input name (e.g., URL, Password)" autocomplete="off">
+
+    <button id="submit-btn">Next</button>
+    <button class="hint-button" id="hint-button">hint</button>
+    <button class="refresh-button" id="refresh-btn" title="Refresh images">↻</button>
+
+    <div class="hover-overlay">
+      <p>Identify which input type you see</p>
+    </div>
+
+    <div id="feedback" class="feedback-message hidden"></div>
+
+    <div class="mistake-counter">
+      <div class="mistake-list"></div>
+    </div>
+  </div>
+
+  <script src="../shared-exit-tracking.js"></script>
+  <script src="captcha.js"></script>
+</body>
+</html>

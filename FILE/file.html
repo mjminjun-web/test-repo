@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload </title>
+    <link rel="stylesheet" href="file.css">
+</head>
+<body>
+ 
+  <div class="item-content">
+    <div class="bottom-left-description">
+      <p>File Upload by Minjun Byun</p>
+      <p>Size 568px x 504.36px</p>
+      <p>2025/11/23</p>
+      <p><strong>MJ Publication</strong></p>
+    </div>
+    
+    <a href="/Home page/index.html" class="hidden-home">home</a>
+    
+    <h2>File Upload</h2>
+    <label for="file">Select File:</label>
+    <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.jpg,.png,.gif,.svg,.indd,.jpeg,.psd,.ai">
+    <button id="upload-btn">Upload</button>
+
+    <button class="hint-button" id="hint-button">hint</button>
+
+    <div class="hover-overlay">
+      <p>Upload your document file</p>
+    </div>
+    
+    <div id="feedback" class="feedback-message hidden"></div>
+
+    <div class="mistake-counter">
+      <div class="mistake-list"></div>
+    </div>
+
+  </div>
+
+<script src="../shared-exit-tracking.js"></script>
+<script src="file.js"></script>
+
+</body>
+</html>

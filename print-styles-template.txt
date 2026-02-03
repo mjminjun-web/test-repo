@@ -1,0 +1,83 @@
+@media print {
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 0.75in;
+  }
+
+  /* Hide everything first */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Hide all UI elements */
+  button, .hint-button, .hover-overlay, .feedback-message,
+  .bottom-left-description, .hidden-home, input, label,
+  h2, .captcha-box, .image-grid, #captcha-images {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Show only the content container */
+  .item-content, .item-content * {
+    visibility: visible;
+  }
+
+  .item-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    background: white;
+    padding: 0;
+  }
+
+  /* Add Users' Catalog title */
+  .item-content::before {
+    content: "Users' Catalog";
+    display: block;
+    visibility: visible;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #333;
+    color: #000;
+  }
+
+  /* Style the mistake counter */
+  .mistake-counter {
+    display: block !important;
+    visibility: visible;
+    page-break-inside: avoid;
+    background: white;
+    border: 2px solid #666;
+    padding: 20px;
+  }
+
+  .mistake-counter::before {
+    content: "Error Log - Current Page Only";
+    display: block;
+    visibility: visible;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #999;
+    color: #000;
+  }
+
+  /* Style error entries */
+  .mistake-list div {
+    visibility: visible;
+    background: #f9f9f9;
+    border-left: 4px solid #c00;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    page-break-inside: avoid;
+  }
+}

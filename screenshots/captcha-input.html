@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  padding: 20px;
+  background: #e8e8e8;
+  font-family: Arial, sans-serif;
+}
+canvas {
+  border: 2px solid #999;
+  background: #f5f5f5;
+  display: block;
+  margin-bottom: 8px;
+}
+.input-box {
+  background: white;
+  border: 2px solid #999;
+  padding: 8px;
+  border-radius: 3px;
+  font-size: 14px;
+  width: 200px;
+}
+</style>
+</head>
+<body>
+<canvas id="captcha" width="200" height="50"></canvas>
+<input type="text" class="input-box" placeholder="Enter CAPTCHA">
+
+<script>
+const canvas = document.getElementById('captcha');
+const ctx = canvas.getContext('2d');
+
+// Background
+ctx.fillStyle = '#f5f5f5';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+// Draw CAPTCHA text
+const text = 'A7B9X';
+ctx.font = 'bold 28px Arial';
+for (let i = 0; i < text.length; i++) {
+  const x = 20 + i * 35;
+  const y = 30 + (Math.random() - 0.5) * 8;
+  const rotation = (Math.random() - 0.5) * 0.3;
+
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rotation);
+  ctx.fillStyle = '#333';
+  ctx.fillText(text[i], 0, 0);
+  ctx.restore();
+}
+
+// Add noise lines
+for (let i = 0; i < 3; i++) {
+  ctx.strokeStyle = `rgba(100, 100, 100, 0.3)`;
+  ctx.beginPath();
+  ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+  ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+  ctx.stroke();
+}
+</script>
+</body>
+</html>
