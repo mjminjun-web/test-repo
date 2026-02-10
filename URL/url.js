@@ -12,6 +12,7 @@ let typingCount = 0;
 let mistakes = 0;
 let buttonEnabled = false;
 let hintPopup = null;
+let usedEmptyMessages = [];
 
 // ========================================
 // AUDIO FUNCTIONS
@@ -32,7 +33,7 @@ function playErrorSound(mistakeCount) {
   gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
   gainNode.gain.exponentialRampToValueAtTime(
     0.01,
-    audioContext.currentTime + 0.5
+    audioContext.currentTime + 0.5,
   );
 
   oscillator.start(audioContext.currentTime);
@@ -78,7 +79,7 @@ function addMistake(mistakeText) {
   mistakes++;
 
   const mistakeDiv = document.createElement("div");
-  mistakeDiv.textContent = `Error #${mistakes}: ${mistakeText}`;
+  mistakeDiv.textContent = `${mistakes}: ${mistakeText}`;
   mistakeList.appendChild(mistakeDiv);
 
   // Store error in localStorage
@@ -106,12 +107,7 @@ function addMistake(mistakeText) {
 // ========================================
 function getHumiliatingMessage(url, errorType) {
   const messages = {
-    empty: [
-      "Really? Nothing? Not even a single letter?",
-      "Leaving it blank. Bold strategy.",
-      "I see you've chosen the minimalist approach.",
-      "An empty box. How zen of you.",
-    ],
+    empty: [],
     missingProtocol: [
       `"${url}" - You forgot the https://. Did you think it was optional?`,
       `"${url}" - You forgot the .com Did you think it was optional?`,
@@ -154,12 +150,23 @@ function getHumiliatingMessage(url, errorType) {
 // ========================================
 function validateURL(url) {
   if (!url) {
+    const allEmptyMessages = [
+      "It's LeviOsa, not LeviOWWWsa! …Wait, wrong spell—that URL's still invalid.",
+      "Did you mean www.whatdidyoutype.com? This doesn't look like a real website.",
+      "Our crystal ball sees an almost-URL… but not quite. Add something like google.com.",
+      "Nope, not magic enough yet. Try site.com instead of just www.",
+      "Domain? More like do-mainly-missing… please include a proper website like example.com.",
+      "Abra-cadabra! But seriously, where's the domain, like google.com?",
+      "Mischief detected: URL still invalid. Try something like example.com.",
+    ];
+    const remaining = allEmptyMessages.filter((m) => !usedEmptyMessages.includes(m));
+    if (remaining.length === 0) usedEmptyMessages = [];
+    const pool = remaining.length > 0 ? remaining : allEmptyMessages;
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+    usedEmptyMessages.push(picked);
     return {
       valid: false,
-      mistake: `It's LeviOsa, not LeviOWWWsa! …Wait, wrong spell—that URL's still invalid. ${getHumiliatingMessage(
-        "",
-        "empty"
-      )}`,
+      mistake: picked,
     };
   }
 
@@ -239,20 +246,42 @@ button.addEventListener("click", (e) => {
   if (!buttonEnabled) {
     e.preventDefault();
 
-    // Validate the URL
-    const validation = validateURL(urlInput.value);
+    // If inline error is showing, don't duplicate in mistake counter
+    const inlineErr = document.getElementById("inline-error");
+    if (inlineErr) {
+      clickCount++;
+      return;
+    }
 
-    if (!validation.valid) {
-      playErrorSound(mistakes);
-      addMistake(validation.mistake);
-    } else if (mistakes < 5) {
+    const val = urlInput.value.trim();
+
+    // Treat input as valid if it looks like a real domain or full URL
+    const looksValid =
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/.test(val);
+
+    if (looksValid) {
       playErrorSound(mistakes);
       addMistake(
         `This website does not exist. Type another URL. ${getHumiliatingMessage(
-          urlInput.value,
-          "websiteNotExist"
-        )}`
+          val,
+          "websiteNotExist",
+        )}`,
       );
+    } else {
+      const validation = validateURL(urlInput.value);
+
+      if (!validation.valid) {
+        playErrorSound(mistakes);
+        addMistake(validation.mistake);
+      } else if (mistakes < 5) {
+        playErrorSound(mistakes);
+        addMistake(
+          `This website does not exist. Type another URL. ${getHumiliatingMessage(
+            urlInput.value,
+            "websiteNotExist",
+          )}`,
+        );
+      }
     }
 
     clickCount++;
@@ -266,28 +295,29 @@ button.addEventListener("click", (e) => {
 });
 
 // ========================================
-// BUTTON HOVER EFFECTS
-// ========================================
-button.addEventListener("mouseenter", () => {
-  if (clickCount < 3 && !buttonEnabled) {
-    const randomX = Math.random() * 20 - 10;
-    const randomY = Math.random() * 20 - 10;
-    button.style.transform = `translate(${randomX}px, ${randomY}px)`;
-    button.style.transition = "transform 0.3s";
-  }
-});
-
-button.addEventListener("mouseleave", () => {
-  if (!buttonEnabled) {
-    button.style.transform = "translate(0, 0)";
-  }
-});
-
-// ========================================
 // INPUT EVENT HANDLERS
 // ========================================
 urlInput.addEventListener("input", (e) => {
   typingCount++;
+
+  const val = e.target.value.trim();
+
+  // Remove any existing inline error
+  const existing = document.getElementById("inline-error");
+  if (existing) existing.remove();
+
+  if (!val) return;
+
+  // Check if user typed only "www." with nothing after it
+  if (/^(https?:\/\/)?www\.?\s*$/i.test(val)) {
+    const err = document.createElement("div");
+    err.id = "inline-error";
+    err.textContent = "You forgot to include the domain (e.g., google.com).";
+    err.style.color = "#d32f2f";
+    err.style.fontSize = "14px";
+    err.style.marginTop = "6px";
+    urlInput.parentNode.insertBefore(err, urlInput.nextSibling);
+  }
 });
 
 // ========================================
