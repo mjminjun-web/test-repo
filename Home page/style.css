@@ -18,7 +18,7 @@ body {
 /* Main box */
 .container {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 37px);
   margin: 0;
   display: flex;
   border: none;
@@ -26,7 +26,7 @@ body {
 }
 
 /* Left menu */
-nav {
+nav:not(.site-nav) {
   width: 220px;
   background: #3a3a3a;
   padding: 0;
@@ -46,18 +46,18 @@ nav {
   margin: 0;
 }
 
-nav ul {
+nav:not(.site-nav) ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-nav li {
+nav:not(.site-nav) li {
   margin: 0;
   border-bottom: none;
 }
 
-nav a {
+nav:not(.site-nav) a {
   display: block;
   padding: 15px 20px;
   color: #cccccc;
@@ -71,11 +71,11 @@ nav a {
   transition: background 0.2s ease;
 }
 
-nav a:hover {
+nav:not(.site-nav) a:hover {
   background: #e0e0e0;
 }
 
-nav a.active {
+nav:not(.site-nav) a.active {
   background: #4a4a4a;
   color: white;
   font-weight: normal;
@@ -110,7 +110,9 @@ nav a.active {
   cursor: pointer;
   font-weight: bold;
   font-size: 28px !important;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
 }
 
 .print-button:hover {
@@ -123,9 +125,9 @@ section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
-  flex: 1;
   overflow: visible;
   padding-top: 10px;
+  align-items: stretch;
 }
 
 /* Each box in grid */
@@ -133,8 +135,7 @@ section {
   background: whitesmoke;
   padding: 15px;
   border: 2px solid gray;
-  min-height: 0;
-  height: 100%;
+  height: 230px;
   position: relative;
   cursor: pointer;
   overflow: hidden;
@@ -696,7 +697,7 @@ section {
   }
 
   .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 1px;
   }
 
   .checkbox-group {

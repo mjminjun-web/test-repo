@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 40px;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: "Inter", sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.site-nav .nav-logo {
+  position: relative;
+}
+
+.site-nav .nav-logo img {
+  height: 28px;
+  width: auto;
+}
+
+.site-nav .nav-logo::after {
+  content: "MJ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.site-nav .nav-logo:hover::after {
+  opacity: 1;
+}
+
+.site-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav .nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.site-nav .nav-links a:hover {
+  color: #000;
+}
+
+.site-nav .nav-links .nav-linkedin a {
+  display: flex;
+  align-items: center;
+}
+
+.site-nav .nav-links .nav-linkedin svg {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+}
+
+.site-nav .nav-links .nav-linkedin svg:hover {
+  fill: #0077b5;
+}
