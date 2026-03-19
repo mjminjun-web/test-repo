@@ -133,7 +133,21 @@ function playSound(type) {
 // ========================================
 // LOGGING FUNCTION
 // ========================================
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 0.8;
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes('Google US English')) || voices[0];
+    if (preferredVoice) utterance.voice = preferredVoice;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
 function logMistake(msg) {
+  speakText(msg);
   if (!mistakeList) {
     console.error('mistakeList not found!');
     return;
@@ -195,8 +209,6 @@ if (button) {
     if (!val) {
       playSound('error');
       logMistake('Password cannot be empty.');
-      container.classList.add('system-shake');
-      setTimeout(() => container.classList.remove('system-shake'), 400);
       return;
     }
 
@@ -220,39 +232,12 @@ if (button) {
         liveErrorElement = null;
       }
 
-      // Show LIVE error message with specific issue
       const specificMessage = failedRule.getMessage(val);
-      liveErrorElement = document.createElement('div');
-      liveErrorElement.className = 'log-entry';
-      liveErrorElement.textContent = `💬 ${specificMessage}`;
-      liveErrorElement.style.color = '#d32f2f';
-      liveErrorElement.style.fontStyle = 'italic';
-      liveErrorElement.id = 'live-password-error';
-      mistakeList.appendChild(liveErrorElement);
-
-      // Also add permanent error message telling user to fix
-      const newErrorMessage = `You need to fix the issue and try again. Click Next when ready.`;
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'log-entry';
-      errorDiv.textContent = `ERROR: ${newErrorMessage}`;
-      mistakeList.appendChild(errorDiv);
-
-      // Store error in localStorage
-      const allErrors = JSON.parse(localStorage.getItem('browserErrors') || '[]');
-      allErrors.push({
-        page: 'PASSWORD INPUT',
-        error: newErrorMessage,
-        timestamp: new Date().toISOString()
-      });
-      localStorage.setItem('browserErrors', JSON.stringify(allErrors));
+      logMistake(specificMessage);
 
       // Reset button color
       button.style.backgroundColor = '';
 
-      // Shake effect
-      container.classList.remove('system-shake');
-      void container.offsetWidth;
-      container.classList.add('system-shake');
     }
 
     // 4. SUCCESS - Password is valid (just for feedback)

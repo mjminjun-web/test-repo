@@ -99,7 +99,7 @@ function generate() {
       0,
       0,
       canvas.width,
-      canvas.height
+      canvas.height,
     );
     gradient.addColorStop(0, "#f5f5f5");
     gradient.addColorStop(1, "#e8e8e8");
@@ -146,7 +146,7 @@ function generate() {
         Math.random() * canvas.width,
         Math.random() * canvas.height,
         2,
-        2
+        2,
       );
     }
   }
@@ -198,7 +198,7 @@ window.addEventListener("beforeprint", () => {
 
       // Remove existing error log container if any
       const existingContainer = itemContent.querySelector(
-        ".error-log-container"
+        ".error-log-container",
       );
       if (existingContainer) existingContainer.remove();
 
@@ -238,7 +238,7 @@ window.addEventListener("afterprint", () => {
     if (itemContent) {
       // Remove error log container
       const errorLogContainer = itemContent.querySelector(
-        ".error-log-container"
+        ".error-log-container",
       );
       if (errorLogContainer) errorLogContainer.remove();
 

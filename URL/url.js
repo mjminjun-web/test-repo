@@ -25,19 +25,14 @@ function playErrorSound(mistakeCount) {
   oscillator.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
-  oscillator.frequency.value = 200;
   oscillator.type = "sawtooth";
-
-  // Volume increases by 0.2 for each mistake (0.2, 0.4, 0.6, 0.8, 1.0)
-  const volume = Math.min(0.2 + mistakeCount * 0.2, 1.0);
-  gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(
-    0.01,
-    audioContext.currentTime + 0.5,
-  );
+  oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+  oscillator.frequency.linearRampToValueAtTime(50, audioContext.currentTime + 0.3);
+  gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
 
   oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.5);
+  oscillator.stop(audioContext.currentTime + 0.3);
 }
 
 function playSuccessSound() {
@@ -75,8 +70,22 @@ function showFeedback(message, type = "error") {
   mistakeList.appendChild(feedbackDiv);
 }
 
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 0.8;
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes('Google US English')) || voices[0];
+    if (preferredVoice) utterance.voice = preferredVoice;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
 function addMistake(mistakeText) {
   mistakes++;
+  speakText(mistakeText);
 
   const mistakeDiv = document.createElement("div");
   mistakeDiv.textContent = `${mistakes}: ${mistakeText}`;

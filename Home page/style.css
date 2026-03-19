@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 /* Basic reset */
 * {
   margin: 0;
@@ -7,7 +9,7 @@
 
 /* Page style */
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Space Mono', monospace;
   background: #f8f8f8;
   padding: 0;
   margin: 0;
@@ -624,7 +626,7 @@ section {
   border: 1px solid black;
   background: white;
   font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Space Mono', monospace;
   box-sizing: border-box;
 }
 
@@ -715,14 +717,10 @@ section {
     margin: 0.75in;
   }
 
-  /* Hide all on-screen UI elements */
-  body * {
-    visibility: hidden;
-  }
-
   /* Hide navigation, buttons, overlays */
   nav,
   .nav-header,
+  .site-nav,
   .grid-item .hover-overlay,
   .grid-item button,
   .print-button,

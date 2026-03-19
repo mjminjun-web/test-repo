@@ -243,7 +243,21 @@ function getInputImage(inputType) {
   return images[inputType] || images['URL'];
 }
 
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 0.8;
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes('Google US English')) || voices[0];
+    if (preferredVoice) utterance.voice = preferredVoice;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
 function logMistake(msg) {
+  speakText(msg);
   const div = document.createElement('div');
   div.textContent = `Error #${mistakes}: ${msg}`;
   mistakeList.appendChild(div);
@@ -276,8 +290,6 @@ function validateCaptcha() {
     mistakes++;
     logMistake('Empty input. Try typing something.');
     showFeedback('No input detected. Are you even trying?', 'error');
-    container.classList.add('system-shake');
-    setTimeout(() => container.classList.remove('system-shake'), 400);
     return;
   }
 
@@ -294,8 +306,6 @@ function validateCaptcha() {
     logMistake(`Wrong input type: ${userVal}. Correct answer was: ${currentAnswer}`);
     showFeedback(`Nope. That's not a ${currentAnswer}. Try again.`, 'error');
     submitBtn.style.backgroundColor = ''; // Reset button color
-    container.classList.add('system-shake');
-    setTimeout(() => container.classList.remove('system-shake'), 400);
     generateInputImages();
     input.value = '';
     input.focus();

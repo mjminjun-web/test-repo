@@ -186,10 +186,6 @@ function handleSystemReaction(message) {
   // Play error sound
   playSound('error');
 
-  // Shake visual
-  container.classList.remove('system-shake');
-  void container.offsetWidth; // Trigger reflow
-  container.classList.add('system-shake');
 }
 
 function addMistake(logText) {

@@ -152,7 +152,21 @@ function getColorName(hex) {
   return closestColor || 'Unknown Color';
 }
 
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 0.8;
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes('Google US English')) || voices[0];
+    if (preferredVoice) utterance.voice = preferredVoice;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
 function logMistake(msg) {
+  speakText(msg);
   const div = document.createElement('div');
   div.className = 'log-entry';
   div.textContent = `ERROR: ${msg}`;
@@ -243,9 +257,6 @@ submitBtn.addEventListener('click', (e) => {
         // Invalid format
         mistakes++;
         logMistake(`Invalid color format. Please enter a valid hex color (e.g., #FF0000).`);
-        container.classList.remove('system-shake');
-        void container.offsetWidth;
-        container.classList.add('system-shake');
         return;
     }
 
@@ -271,9 +282,6 @@ submitBtn.addEventListener('click', (e) => {
         // Reset button color
         submitBtn.style.backgroundColor = '';
 
-        container.classList.remove('system-shake');
-        void container.offsetWidth;
-        container.classList.add('system-shake');
     }
 });
 

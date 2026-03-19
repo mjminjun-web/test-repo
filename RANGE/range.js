@@ -73,9 +73,23 @@ document.head.appendChild(style);
 // ========================================
 // LOGGING FUNCTION
 // ========================================
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 0.8;
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes('Google US English')) || voices[0];
+    if (preferredVoice) utterance.voice = preferredVoice;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
 function logMistake(msg) {
+  speakText(msg);
   if (!mistakeList) return;
-  
+
   const div = document.createElement('div');
   div.className = 'log-entry';
   div.textContent = `ERROR: ${msg}`;
@@ -163,10 +177,6 @@ if (submitBtn) {
     playSound('error');
     logMistake(errorMessage);
 
-    // Shake effect
-    container.classList.remove('system-shake');
-    void container.offsetWidth;
-    container.classList.add('system-shake');
   });
 }
 
