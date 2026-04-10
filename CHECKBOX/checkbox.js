@@ -169,7 +169,7 @@ function speakText(text) {
 
 function addMistake(mistakeText) {
   mistakes++;
-  speakText(mistakeText);
+  speakText(mistakeText.replace(/"/g, ''));
 
   const mistakeDiv = document.createElement('div');
   mistakeDiv.textContent = `Error #${mistakes}: ${mistakeText}`;
