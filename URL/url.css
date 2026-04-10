@@ -199,15 +199,19 @@ body {
 
 @media (max-width: 520px) {
   body {
-    padding: 20px 16px;
+    padding: 0;
     align-items: flex-start;
-    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .item-content {
-    width: 100%;
+    width: 100vw;
+    min-height: 100vh;
     padding: 24px 20px;
     box-sizing: border-box;
+    border-left: none;
+    border-right: none;
+    border-top: none;
   }
 
   .item-content h2 {

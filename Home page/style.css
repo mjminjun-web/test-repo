@@ -560,13 +560,15 @@ section {
 
 @media (max-width: 520px) {
   body {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .container {
     flex-direction: column;
     height: auto;
     min-height: 100vh;
+    width: 100vw;
   }
 
   nav:not(.site-nav) {
@@ -578,7 +580,9 @@ section {
   .main-content {
     height: auto;
     overflow: visible;
-    padding: 12px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .main-content h1 {
