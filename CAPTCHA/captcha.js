@@ -219,11 +219,25 @@ function generateInputImages() {
     iframe.style.borderRadius = '3px';
     iframe.className = 'input-image';
 
-    // Remove auto-fill on click - users must type the answer themselves
-    // imgContainer.addEventListener('click', () => {
-    //   input.value = inputType;
-    //   input.focus();
-    // });
+    imgContainer.addEventListener('click', () => {
+      // Deselect all
+      document.querySelectorAll('.input-image-container').forEach(c => {
+        c.classList.remove('selected');
+        const existing = c.querySelector('.check-mark');
+        if (existing) existing.remove();
+      });
+
+      // Select this one + checkmark
+      imgContainer.classList.add('selected');
+      const checkmark = document.createElement('div');
+      checkmark.className = 'check-mark';
+      checkmark.textContent = '✓';
+      imgContainer.appendChild(checkmark);
+
+      // Auto-fill the input
+      input.value = inputType;
+      input.focus();
+    });
 
     imgContainer.appendChild(iframe);
     captchaImages.appendChild(imgContainer);
