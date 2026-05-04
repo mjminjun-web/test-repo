@@ -1,6 +1,6 @@
-.site-nav { display: none !important; /* hidden - remove !important to show */ }
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+.site-nav { display: none !important; /* hidden - remove to show */ }
 
 .site-nav {
   display: flex;
