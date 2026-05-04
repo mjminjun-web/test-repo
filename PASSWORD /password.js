@@ -196,7 +196,11 @@ if (button) {
 
       setTimeout(() => {
         if (typeof window.markPageCompleted === 'function') {
-          window.markPageCompleted();
+          if (window.recordActivity) {
+          const pwd = document.getElementById('password');
+          if (pwd) window.recordActivity('PASSWORD INPUT', 'input', '•'.repeat(pwd.value.length) + ' (' + pwd.value.length + ' characters)');
+        }
+        window.markPageCompleted();
         }
         window.location.href = '../CHECKBOX/checkbox.html';
       }, 500);

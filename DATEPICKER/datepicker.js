@@ -296,7 +296,11 @@ if (button) {
       button.textContent = "LOADING...";
       setTimeout(() => {
         window.markPageCompleted();
-        window.location.href = '../FILE/file.html';
+        if (window.recordActivity) {
+            const dateInput = document.querySelector('input[type=date]');
+            if (dateInput) window.recordActivity('DATEPICKER', 'input', 'Date selected: ' + dateInput.value);
+          }
+          window.location.href = '../FILE/file.html';
       }, 1000);
     }
   });

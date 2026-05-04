@@ -62,6 +62,7 @@ function playSuccessSound() {
 // UI FEEDBACK FUNCTIONS
 // ========================================
 function showFeedback(message, type = "error") {
+  if (window.recordActivity) window.recordActivity("URL", "response", message);
   // Show feedback in mistake counter instead of separate box
   const feedbackDiv = document.createElement("div");
   feedbackDiv.textContent = message;
@@ -297,6 +298,7 @@ button.addEventListener("click", (e) => {
   } else {
     // Button enabled - redirect to next page
     setTimeout(() => {
+      if (window.recordActivity) window.recordActivity("URL", "input", urlInput.value);
       window.markPageCompleted();
       window.location.href = "../PASSWORD%20/password.html";
     }, 100);

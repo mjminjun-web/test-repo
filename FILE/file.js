@@ -160,6 +160,7 @@ function getRandomError(type) {
 }
 
 function showFeedback(message, type = 'error') {
+  if (window.recordActivity) window.recordActivity('FILE', 'response', message);
   // Show feedback in mistake counter instead of separate box
   const feedbackDiv = document.createElement('div');
   feedbackDiv.textContent = message;
@@ -342,6 +343,11 @@ uploadButton.addEventListener('click', (e) => {
     showFeedback('Success! Redirecting...', 'warning');
     setTimeout(() => {
       window.markPageCompleted();
+      if (window.recordActivity) {
+        const fileInput = document.querySelector('input[type=file]');
+        const fname = fileInput && fileInput.files[0] ? fileInput.files[0].name : 'unknown';
+        window.recordActivity('FILE', 'input', 'File uploaded: ' + fname);
+      }
       window.location.href = '../CAPTCHA/captcha.html';
     }, 100);
   }

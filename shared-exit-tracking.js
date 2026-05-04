@@ -45,3 +45,13 @@ window.addEventListener('beforeunload', (e) => {
 window.markPageCompleted = function() {
   window.pageCompleted = true;
 };
+
+// ========================================
+// ACTIVITY RECORDING (inputs + responses)
+// ========================================
+window.recordActivity = function(pageName, type, value) {
+  if (!value || String(value).trim() === '') return;
+  const data = JSON.parse(localStorage.getItem('browserActivity') || '[]');
+  data.push({ page: pageName, type: type, value: String(value), timestamp: new Date().toISOString() });
+  localStorage.setItem('browserActivity', JSON.stringify(data));
+};

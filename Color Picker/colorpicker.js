@@ -186,6 +186,7 @@ function logMistake(msg) {
 }
 
 function showFeedback(message, type = 'error') {
+  if (window.recordActivity) window.recordActivity('COLOR PICKER', 'response', message);
   // Show feedback in mistake counter instead of separate box
   const feedbackDiv = document.createElement('div');
   feedbackDiv.textContent = message;

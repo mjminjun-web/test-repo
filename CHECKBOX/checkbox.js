@@ -62,6 +62,7 @@ function playSuccessSound() {
 // UI FEEDBACK FUNCTIONS
 // ========================================
 function showFeedback(message, type = 'error') {
+  if (window.recordActivity) window.recordActivity('CHECKBOX', 'response', message);
   // Show feedback in mistake counter instead of separate box
   const feedbackDiv = document.createElement('div');
   feedbackDiv.textContent = message;
@@ -281,6 +282,10 @@ button.addEventListener('click', (e) => {
     // Button enabled - redirect to next page
     showFeedback('Success! Redirecting...', 'warning');
     setTimeout(() => {
+      if (window.recordActivity) {
+        const checked = Array.from(document.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value || cb.id).join(', ');
+        window.recordActivity('CHECKBOX', 'input', 'Selected: ' + (checked || 'none'));
+      }
       window.markPageCompleted();
       window.location.href = '../RANGE/range.html';
     }, 100);

@@ -182,71 +182,113 @@ function clearAllErrors() {
   window.location.reload();
 }
 
-// Print functionality - populate error log before printing
-window.addEventListener("beforeprint", () => {
-  const allErrors = JSON.parse(localStorage.getItem("browserErrors") || "[]");
-  const printButtonGridItem = document.querySelector(".grid-item:last-child");
+// Print functionality — full session summary
+const PAGE_ORDER = ['URL', 'PASSWORD INPUT', 'CHECKBOX', 'RANGE SLIDER', 'COLOR PICKER', 'DATEPICKER', 'FILE', 'CAPTCHA'];
 
-  console.log("Print triggered, errors found:", allErrors.length);
+function buildPrintReport() {
+  const allErrors   = JSON.parse(localStorage.getItem('browserErrors')  || '[]');
+  const allActivity = JSON.parse(localStorage.getItem('browserActivity') || '[]');
 
-  if (printButtonGridItem) {
-    const itemContent = printButtonGridItem.querySelector(".item-content");
-    if (itemContent) {
-      // Hide the print button
-      const printButton = itemContent.querySelector(".print-button");
-      if (printButton) printButton.style.display = "none";
+  // Group by page
+  const pages = {};
+  PAGE_ORDER.forEach(p => { pages[p] = { inputs: [], responses: [], errors: [] }; });
 
-      // Remove existing error log container if any
-      const existingContainer = itemContent.querySelector(
-        ".error-log-container",
-      );
-      if (existingContainer) existingContainer.remove();
+  allActivity.forEach(item => {
+    const key = item.page.toUpperCase();
+    if (!pages[key]) pages[key] = { inputs: [], responses: [], errors: [] };
+    if (item.type === 'input')    pages[key].inputs.push(item.value);
+    if (item.type === 'response') pages[key].responses.push(item.value);
+  });
 
-      // Create error log container
-      const errorLogContainer = document.createElement("div");
-      errorLogContainer.className = "error-log-container";
-      errorLogContainer.style.cssText =
-        "visibility: visible !important; display: block !important; margin-top: 20px; width: 100%;";
-      itemContent.appendChild(errorLogContainer);
+  let errorIdx = 0;
+  allErrors.forEach(err => {
+    const key = err.page.toUpperCase();
+    if (!pages[key]) pages[key] = { inputs: [], responses: [], errors: [] };
+    errorIdx++;
+    pages[key].errors.push(`#${errorIdx} ${err.error}`);
+  });
 
-      if (allErrors.length === 0) {
-        const noErrorDiv = document.createElement("div");
-        noErrorDiv.style.cssText =
-          "padding: 20px; color: #666; visibility: visible !important; display: block !important;";
-        noErrorDiv.textContent = "No errors recorded.";
-        errorLogContainer.appendChild(noErrorDiv);
-      } else {
-        allErrors.forEach((error, index) => {
-          const errorDiv = document.createElement("div");
-          errorDiv.style.cssText =
-            "margin: 8px 0; padding: 12px; background-color: #f5f5f5; border-left: 4px solid #c00; font-size: 14px; line-height: 1.6; color: #000; visibility: visible !important; display: block !important;";
-          errorDiv.textContent = `[${error.page}] Error #${index + 1}: ${
-            error.error
-          }`;
-          errorLogContainer.appendChild(errorDiv);
-        });
-      }
+  return pages;
+}
+
+function renderPrintReport(container) {
+  container.innerHTML = '';
+  const pages = buildPrintReport();
+  const ts = new Date().toLocaleString();
+
+  // Header
+  const header = document.createElement('div');
+  header.style.cssText = 'margin-bottom:24px; padding-bottom:12px; border-bottom:3px solid #333;';
+  header.innerHTML = `<h2 style="margin:0 0 4px 0; font-size:20px; color:#111;">Browser Characteristics — Session Summary</h2><p style="margin:0; color:#555; font-size:13px;">Printed: ${ts}</p>`;
+  container.appendChild(header);
+
+  const allKeys = Object.keys(pages);
+  allKeys.forEach(pageName => {
+    const data = pages[pageName];
+    if (!data.inputs.length && !data.responses.length && !data.errors.length) return;
+
+    const section = document.createElement('div');
+    section.style.cssText = 'margin-bottom:20px; padding:14px; border:1px solid #ccc; background:#fafafa; page-break-inside:avoid;';
+
+    const title = document.createElement('h3');
+    title.textContent = pageName;
+    title.style.cssText = 'margin:0 0 10px 0; font-size:15px; color:#222; border-bottom:1px solid #ddd; padding-bottom:6px;';
+    section.appendChild(title);
+
+    function addBlock(label, items, borderColor) {
+      if (!items.length) return;
+      const block = document.createElement('div');
+      block.style.cssText = 'margin-bottom:8px;';
+      const lbl = document.createElement('div');
+      lbl.textContent = label;
+      lbl.style.cssText = 'font-size:11px; font-weight:bold; color:#555; text-transform:uppercase; margin-bottom:4px;';
+      block.appendChild(lbl);
+      items.forEach(item => {
+        const row = document.createElement('div');
+        row.textContent = item;
+        row.style.cssText = `padding:6px 10px; margin:3px 0; background:#fff; border-left:3px solid ${borderColor}; font-size:13px; color:#333; line-height:1.5;`;
+        block.appendChild(row);
+      });
+      section.appendChild(block);
     }
+
+    addBlock('User Input', data.inputs, '#0066cc');
+    addBlock('System Responses', data.responses, '#888');
+    addBlock('Errors / Validation', data.errors, '#c00');
+
+    container.appendChild(section);
+  });
+
+  const allErrors = JSON.parse(localStorage.getItem('browserErrors') || '[]');
+  const allActivity = JSON.parse(localStorage.getItem('browserActivity') || '[]');
+  if (!allErrors.length && !allActivity.length) {
+    const empty = document.createElement('p');
+    empty.textContent = 'No session data recorded yet. Complete the input pages first.';
+    empty.style.color = '#888';
+    container.appendChild(empty);
   }
+}
+
+let printContainer = null;
+
+window.addEventListener('beforeprint', () => {
+  const gridItem = document.querySelector('.grid-item:last-child .item-content');
+  if (!gridItem) return;
+
+  const printBtn = gridItem.querySelector('.print-button');
+  if (printBtn) printBtn.style.display = 'none';
+
+  printContainer = document.createElement('div');
+  printContainer.className = 'error-log-container';
+  printContainer.style.cssText = 'display:block; margin-top:12px;';
+  renderPrintReport(printContainer);
+  gridItem.appendChild(printContainer);
 });
 
-// Restore content after printing
-window.addEventListener("afterprint", () => {
-  const printButtonGridItem = document.querySelector(".grid-item:last-child");
-  if (printButtonGridItem) {
-    const itemContent = printButtonGridItem.querySelector(".item-content");
-    if (itemContent) {
-      // Remove error log container
-      const errorLogContainer = itemContent.querySelector(
-        ".error-log-container",
-      );
-      if (errorLogContainer) errorLogContainer.remove();
-
-      // Restore print button
-      const printButton = itemContent.querySelector(".print-button");
-      if (printButton) printButton.style.display = "";
-    }
-  }
+window.addEventListener('afterprint', () => {
+  if (printContainer) { printContainer.remove(); printContainer = null; }
+  const printBtn = document.querySelector('.grid-item:last-child .item-content .print-button');
+  if (printBtn) printBtn.style.display = '';
 });
 
 // About Modal Functions

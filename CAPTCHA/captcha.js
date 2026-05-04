@@ -287,6 +287,7 @@ function logMistake(msg) {
 }
 
 function showFeedback(msg, type = 'error') {
+  if (window.recordActivity) window.recordActivity('CAPTCHA', 'response', msg);
   feedback.textContent = msg;
   feedback.className = `feedback-message ${type}`;
   feedback.classList.remove('hidden');
@@ -354,6 +355,10 @@ submitBtn.addEventListener('click', (e) => {
     setTimeout(() => {
       if (typeof window.markPageCompleted === 'function') {
         window.markPageCompleted();
+      }
+      if (window.recordActivity) {
+        const ans = document.getElementById('captcha-input');
+        if (ans) window.recordActivity('CAPTCHA', 'input', 'Final answer: ' + ans.value);
       }
       window.location.href = '../Home page/index.html';
     }, 5000);
