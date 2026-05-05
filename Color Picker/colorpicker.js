@@ -187,12 +187,7 @@ function logMistake(msg) {
 
 function showFeedback(message, type = 'error') {
   if (window.recordActivity) window.recordActivity('COLOR PICKER', 'response', message);
-  // Show feedback in mistake counter instead of separate box
-  const feedbackDiv = document.createElement('div');
-  feedbackDiv.textContent = message;
-  feedbackDiv.style.color = type === 'warning' ? '#666' : '#555';
-  feedbackDiv.style.fontStyle = 'italic';
-  mistakeList.appendChild(feedbackDiv);
+  // logMistake handles display; this just records for print tracking
 }
 
 // ========================================
@@ -210,8 +205,8 @@ function init() {
     // Add live color display label
     const liveColorLabel = document.createElement('label');
     liveColorLabel.id = 'live-color-label';
-    liveColorLabel.style.cssText = 'margin-top: 10px; font-size: 14px; color: #666;';
-    liveColorLabel.innerHTML = 'Your Selection: <span id="live-color-name" style="font-weight: bold; color: #000;">None</span>';
+    liveColorLabel.style.cssText = 'margin-top: 10px; font-size: 14px; color: #666; display: block;';
+    liveColorLabel.innerHTML = 'Your color: <span id="live-color-name" style="font-weight: bold; color: #000;">None</span>';
 
     const colorInputElement = document.getElementById('color-input');
     colorInputElement.parentNode.insertBefore(liveColorLabel, colorInputElement.nextSibling);
@@ -235,7 +230,9 @@ submitBtn.addEventListener('click', (e) => {
         return;
     }
 
-    const userColor = colorInput.value.toUpperCase();
+    let rawVal = colorInput.value.trim();
+    if (rawVal && !rawVal.startsWith('#')) rawVal = '#' + rawVal;
+    const userColor = rawVal.toUpperCase();
 
     // Count clicks toward enablement
     clickCount++;
@@ -277,7 +274,6 @@ submitBtn.addEventListener('click', (e) => {
         mistakes++;
         const userColorName = getColorName(userColor);
         const specificMessage = `Wrong color. You picked ${userColorName} (${userColor}).`;
-        showFeedback(specificMessage, 'error');
         logMistake(specificMessage);
 
         // Reset button color
@@ -286,32 +282,38 @@ submitBtn.addEventListener('click', (e) => {
     }
 });
 
-// Update preview box and clear feedback on input change with enhanced responsiveness
+// Update preview box live as user types hex code
 colorInput.addEventListener('input', () => {
-    feedback.className = 'feedback-message hidden';
-    const userColor = colorInput.value.toUpperCase();
+    let raw = colorInput.value.trim();
+    if (raw && !raw.startsWith('#')) raw = '#' + raw;
+    const userColor = raw.toUpperCase();
+    const isValidHex = /^#[0-9A-F]{6}$/i.test(userColor);
 
-    // Update preview box background
+    if (!isValidHex) {
+        previewBox.style.backgroundColor = '';
+        previewBox.textContent = 'LOCKED';
+        previewBox.style.boxShadow = 'none';
+        previewBox.style.border = '3px dashed #999';
+        const liveColorNameSpan = document.getElementById('live-color-name');
+        if (liveColorNameSpan) { liveColorNameSpan.textContent = 'None'; liveColorNameSpan.style.color = '#000'; }
+        return;
+    }
+
     previewBox.style.backgroundColor = userColor;
-
-    // Show the hex value in real-time
     previewBox.textContent = userColor;
     previewBox.style.fontSize = '14px';
     previewBox.style.fontWeight = 'bold';
     previewBox.style.display = 'flex';
     previewBox.style.alignItems = 'center';
     previewBox.style.justifyContent = 'center';
+    previewBox.style.transition = 'all 0.15s ease';
 
-    // Calculate color brightness to adjust text color for readability
     const r = parseInt(userColor.substring(1, 3), 16);
     const g = parseInt(userColor.substring(3, 5), 16);
     const b = parseInt(userColor.substring(5, 7), 16);
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-    // Use white text on dark colors, black text on light colors
     previewBox.style.color = brightness > 128 ? '#000000' : '#FFFFFF';
 
-    // Update live color name display
     const liveColorNameSpan = document.getElementById('live-color-name');
     if (liveColorNameSpan) {
         const userColorName = getColorName(userColor);
@@ -319,29 +321,19 @@ colorInput.addEventListener('input', () => {
         liveColorNameSpan.style.color = userColor;
     }
 
-    // Add subtle pulse animation for better feedback
-    previewBox.style.transition = 'all 0.15s ease';
-
-    // Show color similarity indicator with visual feedback
     const colorDistance = calculateColorDistance(userColor, targetColor);
-
-    // Add visual hint about how close the user is
     if (colorDistance === 0) {
-        // Perfect match - strong green glow
         previewBox.style.boxShadow = '0 0 20px rgba(40, 167, 69, 1)';
         previewBox.style.border = '3px solid #28a745';
     } else if (colorDistance < 30) {
-        // Very close - green glow
         previewBox.style.boxShadow = '0 0 15px rgba(40, 167, 69, 0.7)';
         previewBox.style.border = '3px solid rgba(40, 167, 69, 0.5)';
     } else if (colorDistance < 80) {
-        // Getting warmer - yellow glow
         previewBox.style.boxShadow = '0 0 10px rgba(255, 193, 7, 0.6)';
         previewBox.style.border = '3px solid rgba(255, 193, 7, 0.4)';
     } else {
-        // Cold - no glow
         previewBox.style.boxShadow = 'none';
-        previewBox.style.border = '3px solid #999';
+        previewBox.style.border = '3px dashed #999';
     }
 });
 
